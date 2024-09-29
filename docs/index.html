@@ -136,6 +136,12 @@
 			const sourceTimeSecond = document.getElementById("source-time-second");
 			const targetTimeText = document.getElementById("target-time");
 
+			const cookieMap = new Map(document.cookie.split('; ').map((pair) => pair.split('=')));
+			sourceWottage.value = cookieMap.get('sourceWottage');
+			targetWottage.value = cookieMap.get('targetWottage');
+			sourceTimeMinute.value = cookieMap.get('sourceTimeMinute');
+			sourceTimeSecond.value = cookieMap.get('sourceTimeSecond');
+
 			const drawTargetTime = () => {
 				const sourceTime = parseInt(sourceTimeMinute.value) * 60 + parseInt(sourceTimeSecond.value);
 				const weight = parseInt(sourceWottage.value) / parseInt(targetWottage.value);
@@ -145,6 +151,12 @@
 				const targetTimeSecond = (targetTime % 60).toString();
 	
 				targetTimeText.textContent = `${targetTimeMinute}:${targetTimeSecond.padStart(2, '0')}`;
+
+				cookieMap.set('sourceWottage', sourceWottage.value);
+				cookieMap.set('targetWottage', targetWottage.value);
+				cookieMap.set('sourceTimeMinute', sourceTimeMinute.value);
+				cookieMap.set('sourceTimeSecond', sourceTimeSecond.value);
+				document.cookie = [...cookieMap.entries()].map(([k, v]) => `${k}=${v}`).join('; ');
 			}
 
 			sourceWottage.addEventListener('change', () => drawTargetTime());
