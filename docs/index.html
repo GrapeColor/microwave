@@ -26,10 +26,10 @@
 			<div class="row my-5">
 				<div class="col">
 					<div class="input-group input-group-lg">
-						<input type="number" name="sourceWottage" id="source-wottage" class="form-control text-end" value="500" step="100" />
+						<input type="number" name="sourceWottage" id="source-wottage" class="form-control text-end" value="500" min="100" step="100" />
 						<label for="source-wottage" class="input-group-text fw-bold">W</label>
 						<span class="input-group-text fw-bold bg-primary">→</span>
-						<input type="number" name="targetWottage" id="target-wottage" class="form-control text-end" value="600" step="100" />
+						<input type="number" name="targetWottage" id="target-wottage" class="form-control text-end" value="600" min="100" step="100" />
 						<label for="target-wottage" class="input-group-text fw-bold">W</label>
 					</div>
 				</div>
@@ -136,11 +136,16 @@
 			const sourceTimeSecond = document.getElementById("source-time-second");
 			const targetTimeText = document.getElementById("target-time");
 
+			// 初期値設定
 			const cookieMap = new Map(document.cookie.split('; ').map((pair) => pair.split('=')));
-			sourceWottage.value = cookieMap.get('sourceWottage');
-			targetWottage.value = cookieMap.get('targetWottage');
-			sourceTimeMinute.value = cookieMap.get('sourceTimeMinute');
-			sourceTimeSecond.value = cookieMap.get('sourceTimeSecond');
+			sourceWottage.value = cookieMap.get('sourceWottage') ?? '500';
+			targetWottage.value = cookieMap.get('targetWottage') ?? '600';
+			sourceTimeMinute.value = cookieMap.get('sourceTimeMinute') ?? '0';
+			sourceTimeSecond.value = cookieMap.get('sourceTimeSecond') ?? '0';
+
+			const setCookies = () => {
+				document.cookie = [...cookieMap.entries()].map(([k, v]) => `${k}=${v}`).join('; ');
+			}
 
 			const drawTargetTime = () => {
 				const sourceTime = parseInt(sourceTimeMinute.value) * 60 + parseInt(sourceTimeSecond.value);
@@ -150,13 +155,13 @@
 				const targetTimeMinute = (Math.trunc(targetTime / 60)).toString();
 				const targetTimeSecond = (targetTime % 60).toString();
 	
-				targetTimeText.textContent = `${targetTimeMinute}:${targetTimeSecond.padStart(2, '0')}`;
+				targetTimeText.textContent = Number.isNaN(targetTime) ? '0:00' : `${targetTimeMinute}:${targetTimeSecond.padStart(2, '0')}`;
 
 				cookieMap.set('sourceWottage', sourceWottage.value);
 				cookieMap.set('targetWottage', targetWottage.value);
 				cookieMap.set('sourceTimeMinute', sourceTimeMinute.value);
 				cookieMap.set('sourceTimeSecond', sourceTimeSecond.value);
-				document.cookie = [...cookieMap.entries()].map(([k, v]) => `${k}=${v}`).join('; ');
+				setCookies();
 			}
 
 			sourceWottage.addEventListener('change', () => drawTargetTime());
