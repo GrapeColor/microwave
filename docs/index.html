@@ -136,8 +136,9 @@
 			const sourceTimeSecond = document.getElementById("source-time-second");
 			const targetTimeText = document.getElementById("target-time");
 
-			// 初期値設定
-			const cookieMap = new Map(document.cookie.split('; ').map((pair) => pair.split('=')));
+			const cookie = document.cookie || null;
+			const cookieMap = new Map(cookie?.split('; ').map((pair) => pair.split('=')));
+
 			sourceWottage.value = cookieMap.get('sourceWottage') ?? '500';
 			targetWottage.value = cookieMap.get('targetWottage') ?? '600';
 			sourceTimeMinute.value = cookieMap.get('sourceTimeMinute') ?? '0';
