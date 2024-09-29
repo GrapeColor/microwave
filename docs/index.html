@@ -145,7 +145,9 @@
 			sourceTimeSecond.value = cookieMap.get('sourceTimeSecond') ?? '0';
 
 			const setCookies = () => {
-				document.cookie = [...cookieMap.entries()].map(([k, v]) => `${k}=${v}`).join('; ');
+				[...cookieMap.entries()]
+					.map(([k, v]) => `${k}=${v}`)
+					.forEach((pair) => document.cookie = `${pair}; max-age=31536000`);
 			}
 
 			const drawTargetTime = () => {
@@ -169,6 +171,8 @@
 			targetWottage.addEventListener('change', () => drawTargetTime());
 			sourceTimeMinute.addEventListener('change', () => drawTargetTime());
 			sourceTimeSecond.addEventListener('change', () => drawTargetTime());
+
+			drawTargetTime();
 		</script>
 	</body>
 </html>
