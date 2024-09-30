@@ -173,7 +173,9 @@
 				const targetTimeMinute = (Math.trunc(targetTime / 60)).toString();
 				const targetTimeSecond = (targetTime % 60).toString();
 	
-				targetTimeText.textContent = Number.isNaN(targetTime) ? '0:00' : `${targetTimeMinute}:${targetTimeSecond.padStart(2, '0')}`;
+				targetTimeText.textContent = targetTime < 0 || isNaN(targetTimeMinute) || isNaN(targetTimeSecond)
+					? 'は？'
+					: `${targetTimeMinute}:${targetTimeSecond.padStart(2, '0')}`;
 
 				cookieMap.set('sourceWottage', sourceWottage.value);
 				cookieMap.set('targetWottage', targetWottage.value);
@@ -182,10 +184,10 @@
 				setCookies();
 			}
 
-			sourceWottage.addEventListener('change', () => drawTargetTime());
-			targetWottage.addEventListener('change', () => drawTargetTime());
-			sourceTimeMinute.addEventListener('change', () => drawTargetTime());
-			sourceTimeSecond.addEventListener('change', () => drawTargetTime());
+			sourceWottage.addEventListener('input', () => drawTargetTime());
+			targetWottage.addEventListener('input', () => drawTargetTime());
+			sourceTimeMinute.addEventListener('input', () => drawTargetTime());
+			sourceTimeSecond.addEventListener('input', () => drawTargetTime());
 
 			drawTargetTime();
 		</script>
