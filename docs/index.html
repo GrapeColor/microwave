@@ -28,10 +28,10 @@
 						<div class="row mb-5">
 							<div class="col">
 								<div class="input-group input-group-lg">
-									<input type="number" name="sourceWottage" id="source-wottage" class="form-control text-end" value="500" min="100" step="100" />
+									<input type="text" name="sourceWottage" id="source-wottage" class="form-control text-end" value="500" maxlength="4" inputmode="numeric" />
 									<label for="source-wottage" class="input-group-text fw-bold">W</label>
 									<span class="input-group-text fw-bold text-bg-primary">→</span>
-									<input type="number" name="targetWottage" id="target-wottage" class="form-control text-end" value="600" min="100" step="100" />
+									<input type="text" name="targetWottage" id="target-wottage" class="form-control text-end" value="600" maxlength="4" inputmode="numeric" />
 									<label for="target-wottage" class="input-group-text fw-bold">W</label>
 								</div>
 							</div>
@@ -160,9 +160,9 @@
 			sourceTimeSecond.value = cookieMap.get('sourceTimeSecond') ?? '0';
 
 			const setCookies = () => {
-				[...cookieMap.entries()]
-					.map(([k, v]) => `${k}=${v}`)
-					.forEach((pair) => document.cookie = `${pair}; max-age=31536000`);
+				for (const [k, v] of cookieMap.entries()) {
+					document.cookie = `${k}=${v}; max-age=31536000`
+				}
 			}
 
 			const drawTargetTime = () => {
