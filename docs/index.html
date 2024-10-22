@@ -43,7 +43,8 @@
 										<option value="1500">
 										<option value="1900">
 									</datalist>
-									<label for="source-wottage" class="input-group-text fw-bold">W</label>
+									<button type="button" id="source-wottage-clear-button" class="btn border fw-bold" title="クリア"
+										data-bs-toggle="tooltip" data-bs-placement="top">W</button>
 									<span class="input-group-text fw-bold text-bg-primary">→</span>
 									<input type="text" name="targetWottage" id="target-wottage" class="form-control text-end" list="targetWottageOptions" value="600" maxlength="4" inputmode="numeric" />
 									<datalist id="targetWottageOptions">
@@ -60,7 +61,8 @@
 										<option value="1500">
 										<option value="1900">
 									</datalist>
-									<label for="target-wottage" class="input-group-text fw-bold">W</label>
+									<button type="button" id="target-wottage-clear-button" class="btn border fw-bold" title="クリア"
+										data-bs-toggle="tooltip" data-bs-placement="top">W</button>
 								</div>
 							</div>
 						</div>
@@ -94,6 +96,9 @@
 			if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
 				document.body.setAttribute('data-bs-theme', 'dark');
 			}
+
+			const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+			const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
 			const cookie = document.cookie || null;
 			const cookieMap = new Map(cookie?.split('; ').map((pair) => pair.split('=')));
@@ -136,6 +141,18 @@
 			sourceTime.addEventListener('input', () => drawTargetTime());
 
 			drawTargetTime();
+
+			sourceWottageClearButton = document.getElementById('source-wottage-clear-button');
+			targerWottageClearButton = document.getElementById('target-wottage-clear-button');
+
+			sourceWottageClearButton.onclick = () => {
+				sourceWottage.value = '';
+				drawTargetTime();
+			}
+			targerWottageClearButton.onclick = () => {
+				targetWottage.value = ''
+				drawTargetTime();
+			};
 		</script>
 	</body>
 </html>
