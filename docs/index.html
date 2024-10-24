@@ -145,14 +145,14 @@
 			sourceWottageClearButton = document.getElementById('source-wottage-clear-button');
 			targerWottageClearButton = document.getElementById('target-wottage-clear-button');
 
-			sourceWottageClearButton.onclick = () => {
-				sourceWottage.value = '';
+			const clearWottage = (element) => {
+				element.value = '';
+				element.focus({ focusVisible: true });
 				drawTargetTime();
 			}
-			targerWottageClearButton.onclick = () => {
-				targetWottage.value = ''
-				drawTargetTime();
-			};
+
+			sourceWottageClearButton.onclick = () => clearWottage(sourceWottage);
+			targerWottageClearButton.onclick = () => clearWottage(targetWottage);
 		</script>
 	</body>
 </html>
