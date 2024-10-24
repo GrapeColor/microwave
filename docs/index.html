@@ -103,12 +103,6 @@
 			const cookie = document.cookie || null;
 			const cookieMap = new Map(cookie?.split('; ').map((pair) => pair.split('=')));
 
-			window.addEventListener('beforeunload', () => {
-				for (const [k, v] of cookieMap.entries()) {
-					document.cookie = `${k}=${v}; max-age=31536000`
-				}
-			});
-
 			const sourceWottage = document.getElementById('source-wottage');
 			const targetWottage = document.getElementById('target-wottage');
 			const sourceTime = document.getElementById('source-time');
@@ -136,14 +130,10 @@
 				cookieMap.set('sourceTime', sourceTime.value);
 			}
 
-			sourceWottage.addEventListener('input', () => drawTargetTime());
-			targetWottage.addEventListener('input', () => drawTargetTime());
-			sourceTime.addEventListener('input', () => drawTargetTime());
-
-			drawTargetTime();
-
-			sourceWottageClearButton = document.getElementById('source-wottage-clear-button');
-			targerWottageClearButton = document.getElementById('target-wottage-clear-button');
+			const sourceWottageClearButton = document.getElementById('source-wottage-clear-button');
+			const targerWottageClearButton = document.getElementById('target-wottage-clear-button');
+			const sourceWottageClearButtonTooltip = bootstrap.Tooltip.getOrCreateInstance(sourceWottageClearButton);
+			const targetWottageClearButtonTooltip = bootstrap.Tooltip.getOrCreateInstance(targerWottageClearButton);
 
 			const clearWottage = (element) => {
 				element.value = '';
@@ -151,8 +141,26 @@
 				drawTargetTime();
 			}
 
-			sourceWottageClearButton.onclick = () => clearWottage(sourceWottage);
-			targerWottageClearButton.onclick = () => clearWottage(targetWottage);
+			/////<<<<< Events >>>>>/////
+			window.addEventListener('beforeunload', () => {
+				for (const [k, v] of cookieMap.entries()) {
+					document.cookie = `${k}=${v}; max-age=31536000`
+				}
+			});
+
+			sourceWottageClearButton.addEventListener('click', () => clearWottage(sourceWottage));
+			targerWottageClearButton.addEventListener('click', () => clearWottage(targetWottage));
+
+			sourceWottage.addEventListener('input', () => drawTargetTime());
+			targetWottage.addEventListener('input', () => drawTargetTime());
+			sourceTime.addEventListener('input', () => drawTargetTime());
+
+			sourceWottage.addEventListener('focus', () => sourceWottageClearButtonTooltip.show());
+			targetWottage.addEventListener('focus', () => targetWottageClearButtonTooltip.show());
+			sourceWottage.addEventListener('blur', () => sourceWottageClearButtonTooltip.hide());
+			targetWottage.addEventListener('blur', () => targetWottageClearButtonTooltip.hide());
+
+			drawTargetTime();
 		</script>
 	</body>
 </html>
