@@ -2,6 +2,8 @@
 	"$schema": "https://json.schemastore.org/web-manifest-combined.json",
 	"name": "電子レンジ・ワット時間換算",
 	"short_name": "レンジ換算",
+	"description": "電子レンジの設定時間を指定ワット間で換算します",
+	"categories": ["utilities"],
 	"start_url": "/",
 	"display": "standalone",
 	"icons": [
