@@ -145,6 +145,7 @@
 			}
 
 			/////<<<<< Events >>>>>/////
+			window.addEventListener('DOMContentLoaded', () => drawTargetTime());
 			window.addEventListener('beforeunload', () => {
 				for (const [k, v] of cookieMap.entries()) {
 					document.cookie = `${k}=${v}; max-age=31536000`
@@ -162,8 +163,6 @@
 			targetWottage.addEventListener('focus', () => targetWottageClearButtonTooltip.show());
 			sourceWottage.addEventListener('blur', () => sourceWottageClearButtonTooltip.hide());
 			targetWottage.addEventListener('blur', () => targetWottageClearButtonTooltip.hide());
-
-			drawTargetTime();
 		</script>
 	</body>
 </html>
