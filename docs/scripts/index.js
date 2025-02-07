@@ -15,11 +15,11 @@ const targetTimeText = document.getElementById('target-time');
 
 sourceWottage.value = cookieMap.get('sourceWottage') ?? '500';
 targetWottage.value = cookieMap.get('targetWottage') ?? '600';
-sourceTime.value = cookieMap.get('sourceTime') ?? '00:00:00';
+sourceTime.value = cookieMap.get('sourceTime') ?? '00:00';
 
 const drawTargetTime = () => {
 	const sourceTimeUnits = sourceTime.value.split(':');
-	const sourceTimestamp = new Date(0).setUTCHours(sourceTimeUnits[0], sourceTimeUnits[1], sourceTimeUnits[2]).valueOf() / 1000;
+	const sourceTimestamp = new Date(0).setUTCHours(sourceTimeUnits[0], sourceTimeUnits[1]).valueOf() / 60000;
 	const weight = parseInt(sourceWottage.value) / parseInt(targetWottage.value);
 
 	const targetTime = Math.round(sourceTimestamp * weight);
