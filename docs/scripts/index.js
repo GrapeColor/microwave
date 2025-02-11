@@ -18,6 +18,10 @@ targetWottage.value = cookieMap.get('targetWottage') ?? '600';
 sourceTime.value = cookieMap.get('sourceTime') ?? '00:00';
 
 const drawTargetTime = () => {
+	if (sourceTime.value === '') {
+		sourceTime.value = '00:00';
+	}
+
 	const sourceTimeUnits = sourceTime.value.split(':');
 	const sourceTimestamp = new Date(0).setUTCHours(sourceTimeUnits[0], sourceTimeUnits[1]).valueOf() / 60000;
 	const weight = parseInt(sourceWottage.value) / parseInt(targetWottage.value);
