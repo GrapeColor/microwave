@@ -5,17 +5,20 @@ if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
-const cookie = document.cookie || null;
-const cookieMap = new Map(cookie?.split('; ').map((pair) => pair.split('=')));
-
 const sourceWottage = document.getElementById('source-wottage');
 const targetWottage = document.getElementById('target-wottage');
 const sourceTime = document.getElementById('source-time');
 const targetTimeText = document.getElementById('target-time');
 
-sourceWottage.value = cookieMap.get('sourceWottage') ?? '500';
-targetWottage.value = cookieMap.get('targetWottage') ?? '600';
-sourceTime.value = cookieMap.get('sourceTime') ?? '00:00';
+sourceWottage.value = localStorage.getItem('sourceWottage') ?? '500';
+targetWottage.value = localStorage.getItem('targetWottage') ?? '600';
+sourceTime.value = localStorage.getItem('sourceTime') ?? '00:00';
+
+const saveStorage = () => {
+	localStorage.setItem('sourceWottage', sourceWottage.value);
+	localStorage.setItem('targetWottage', targetWottage.value);
+	localStorage.setItem('sourceTime', sourceTime.value);
+}
 
 const drawTargetTime = () => {
 	if (sourceTime.value === '') {
@@ -34,9 +37,7 @@ const drawTargetTime = () => {
 		? '--:--'
 		: `${targetTimeMinute.padStart(2, '0')}:${targetTimeSecond.padStart(2, '0')}`;
 
-	cookieMap.set('sourceWottage', sourceWottage.value);
-	cookieMap.set('targetWottage', targetWottage.value);
-	cookieMap.set('sourceTime', sourceTime.value);
+	saveStorage();
 }
 
 const sourceWottageClearButton = document.getElementById('source-wottage-clear-button');
@@ -51,11 +52,7 @@ const clearWottage = (element) => {
 }
 
 /////<<<<< Events >>>>>/////
-window.addEventListener('beforeunload', () => {
-	for (const [k, v] of cookieMap.entries()) {
-		document.cookie = `${k}=${v}; max-age=31536000`
-	}
-});
+window.addEventListener('beforeunload', () => saveStorage());
 
 sourceWottageClearButton.addEventListener('click', () => clearWottage(sourceWottage));
 targerWottageClearButton.addEventListener('click', () => clearWottage(targetWottage));
