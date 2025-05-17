@@ -25,6 +25,8 @@ const drawTargetTime = () => {
 		sourceTime.value = '00:00';
 	}
 
+	saveStorage();
+
 	const sourceTimeUnits = sourceTime.value.split(':');
 	const sourceTimestamp = new Date(0).setUTCHours(sourceTimeUnits[0], sourceTimeUnits[1]).valueOf() / 60000;
 	const weight = parseInt(sourceWottage.value) / parseInt(targetWottage.value);
@@ -36,8 +38,6 @@ const drawTargetTime = () => {
 	targetTimeText.textContent = targetTime < 0 || isNaN(targetTimeMinute) || isNaN(targetTimeSecond)
 		? '--:--'
 		: `${targetTimeMinute.padStart(2, '0')}:${targetTimeSecond.padStart(2, '0')}`;
-
-	saveStorage();
 }
 
 const sourceWottageClearButton = document.getElementById('source-wottage-clear-button');
@@ -51,7 +51,15 @@ const clearWottage = (element) => {
 	drawTargetTime();
 }
 
+/////<<<<< ServiceWorker >>>>>/////
+const registerServiceWorker = () => {
+	if ('serviceWorker' in navigator) {
+		navigator.serviceWorker.register('/js/sw.js', { scope: '/' });
+	}
+}
+
 /////<<<<< Events >>>>>/////
+window.addEventListener('load', () => registerServiceWorker());
 window.addEventListener('beforeunload', () => saveStorage());
 
 sourceWottageClearButton.addEventListener('click', () => clearWottage(sourceWottage));
