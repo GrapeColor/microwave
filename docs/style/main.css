@@ -1,0 +1,10 @@
+* { font-family: "Noto Sans TC", serif; }
+
+html, body {
+	height: 100%;
+	margin: 0;
+}
+
+.container-fluid {
+	max-width: 500px;
+}

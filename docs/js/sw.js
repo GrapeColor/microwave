@@ -7,6 +7,7 @@ resources = [
 	'/',
 	'index.html',
 	'/js/index.js',
+	'/style/main.css',
 ];
 
 this.addEventListener('install', (event) => {
