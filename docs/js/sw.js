@@ -6,7 +6,7 @@ const addResourcesToCache = async (resources) => {
 resources = [
 	'/',
 	'index.html',
-	'/js/index.js',
+	'/js/main.js',
 	'/style/main.css',
 ];
 

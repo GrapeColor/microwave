@@ -42,12 +42,23 @@ const drawTargetTime = () => {
 
 const sourceWottageClearButton = document.getElementById('source-wottage-clear-button');
 const targerWottageClearButton = document.getElementById('target-wottage-clear-button');
+const swapTargetWottageButton = document.getElementById('swap-target-wottage-button');
 const sourceWottageClearButtonTooltip = bootstrap.Tooltip.getOrCreateInstance(sourceWottageClearButton);
 const targetWottageClearButtonTooltip = bootstrap.Tooltip.getOrCreateInstance(targerWottageClearButton);
 
 const clearWottage = (element) => {
 	element.value = '';
 	element.focus({ focusVisible: true });
+	drawTargetTime();
+}
+
+const swapWottage = () => {
+	const sourceWottageValue = sourceWottage.value;
+	const targetWottageValue = targetWottage.value;
+
+	sourceWottage.value = targetWottageValue;
+	targetWottage.value = sourceWottageValue;
+
 	drawTargetTime();
 }
 
@@ -64,6 +75,7 @@ window.addEventListener('beforeunload', () => saveStorage());
 
 sourceWottageClearButton.addEventListener('click', () => clearWottage(sourceWottage));
 targerWottageClearButton.addEventListener('click', () => clearWottage(targetWottage));
+swapTargetWottageButton.addEventListener('click', () => swapWottage());
 
 sourceWottage.addEventListener('input', () => drawTargetTime());
 targetWottage.addEventListener('input', () => drawTargetTime());
@@ -74,4 +86,9 @@ targetWottage.addEventListener('focus', () => targetWottageClearButtonTooltip.sh
 sourceWottage.addEventListener('blur', () => sourceWottageClearButtonTooltip.hide());
 targetWottage.addEventListener('blur', () => targetWottageClearButtonTooltip.hide());
 
+/////<<<<< Initialize >>>>>/////
 drawTargetTime();
+tooltipList.forEach((tooltip) => {
+	tooltip.show();
+	setTimeout(() => tooltip.hide(), 5000);
+});
